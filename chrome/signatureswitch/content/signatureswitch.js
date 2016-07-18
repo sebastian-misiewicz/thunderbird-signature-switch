@@ -201,6 +201,12 @@ var ss_main = {
         if ((newRange.startOffset == 1 && !editorIsEmpty) || (initialModCount == 0 && !hasSignature))
             currentEditor.insertLineBreak();
 
+        var signatureRange = currentEditor.document.createRange();
+        signatureRange.setStartAfter(currentEditor.rootElement);
+        signatureRange.setEndAfter(currentEditor.rootElement);
+        currentEditor.selection.removeAllRanges();
+        currentEditor.selection.addRange(signatureRange);
+
         if (GetCurrentEditorType() == "textmail")
         {
             if (signature.indexOf("-- \n") == -1 && signature != "")
@@ -210,10 +216,7 @@ var ss_main = {
         }
         else
         {
-            if (signature.indexOf("-- \n") == -1 && signature.indexOf("-- <") == -1 && signature != "")
-                signature = "-- <br>" + signature ;
-
-            signature = "<div class=\"moz-signature\">" + signature + "</div>";
+            signature = "<br> <div class=\"moz-signature\">" + signature + "</div>";
 
             currentEditor.insertHTML(signature);
         }
